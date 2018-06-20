@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TOA09</title>
+	<script>
+		function getradio() {
+			var radios = document.getElementsByName('operation');
+
+			for (var i = 0, length = radios.length; i < length; i++)
+			{
+			 if (radios[i].checked)
+			 {
+			 	return radios[i].value;
+			 }
+			}
+			return '';
+		}
+		function doajax() {
+			var operation = getradio();
+			var operand1 = document.getElementById("operand1").value;
+			var operand2 = document.getElementById("operand2").value;
+			var req = new XMLHttpRequest();
+			// get the form values here
+			req.open("GET", "/math_service?operation="+operation+"&operand1="+operand1+"&operand2="+operand2, false);
+			req.send();
+			// console.log(req.responseText);
+			document.getElementById("result").innerHTML = JSON.parse(req.responseText).theResult;
+		}
+	</script>
+</head>
+<body>
+	<p>Hi everybody!</p>
+	<form action="/math" method="get">
+		<input type="radio" name="operation" value="add"> Add<br>
+		<input type="radio" name="operation" value="subtract"> Subtract<br>
+		<input type="radio" name="operation" value="multiply"> Multiply<br>
+		<input type="radio" name="operation" value="divide"> Divide<br>
+		Operand 1: <input type="text" id="operand1" name="operand1"><br>
+		Operand 2: <input type="text" id="operand2" name="operand2"><br>
+		<input type="submit"><br>
+		<input type="button" value="doajax" onclick="doajax()">
+	</form>
+	<p>
+		The result is <span id="result"></span>
+	</p>
+
+</body>
+</html>
