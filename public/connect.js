@@ -21,10 +21,11 @@ function handle_get_getPerson(req, res)
   client.query('SELECT id, first_name, last_name FROM member WHERE id = $1', [req.query.id], (dberr, dbres) => {
     if (dberr) throw dberr
     for (let row of dbres.rows) {
-      res.header('Content-Type', 'application/json');
-      res.write(res.json(dbres.rows));
-      res.end();
-      console.log(JSON.stringify(row))
+      //res.header('Content-Type', 'application/json');
+      res.json(row);
+      // res.write(res.json(dbres.rows));
+      //res.end();
+      //console.log(JSON.stringify(row))
     }
     client.end()
   })
