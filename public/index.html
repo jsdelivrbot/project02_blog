@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Postal Rate Calculator</title>
+	<style>
+		h1 {
+			text-align: center;
+		}
+		body {
+			background-color: #66b2ff;
+		}
+	</style>
+</head>
+<body>
+	<h1>Welcome to the Postal Rate Calculaor</h1>
+	<p>Insert your package weight and delivery type.</p>
+	<form action="/calculateresult" method="get">
+		<label for="weight">Weight:</label><br>
+		<input type="text" name="weight" id="weight"><br>
+		<label for="mail">Type:</label><br>
+		<select name="mail" id="mail">
+			<option value="stamped">Letters (Stamped)</option>
+			<option value="metered">Letters (Metered)</option>
+			<option value="flats">Large Envelopes (Flats)</option>
+			<option value="firstclasspackage">First-Class Package Service-Retail</option>
+		</select><br>
+		<input type="submit" name="submit" value="Calculate">
+	</form>
+
+</body>
+</html>
+

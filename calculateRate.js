@@ -2,7 +2,8 @@ const express = require('express')
 const path = require('path')
 const PORT = process.env.PORT || 5000
 
-function calculateRate(req, res) {
+function doprocessing(req, res) {
+	// console.log(req.query)
 	var weight = Number(req.query.weight)
 	var mail = Number(req.query.mail)
 	var result = 0
@@ -10,82 +11,75 @@ function calculateRate(req, res) {
 	{
 		case 'stamped':
 			if (weight > 0 && weight <= 1) {
-				result = '$0.50'
+				result = '0.50'
 			} else if (weight > 1 && weight <= 2) {
-				result = '$0.71'
+				result = '0.71'
 			} else if (weight > 2 && weight <= 3) {
-				result = '$0.92'
+				result = '0.92'
 			} else if (weight > 3 && weight <= 3.5) {
-				result = '$1.13'
-			}else if (weight > 3.5) {
-				result = "Weight exceeds limit for a stamped letters."
+				result = '1.13'
 			}
 			break
 		case 'metered':
 			if (weight > 0 && weight <= 1) {
-				result = '$0.47'
+				result = '0.47'
 			} else if (weight > 1 && weight <= 2) {
-				result = '$0.68'
+				result = '0.68'
 			} else if (weight > 2 && weight <= 3) {
-				result = '$0.89'
+				result = '0.89'
 			} else if (weight > 3 && weight <= 3.5) {
-				result = '$1.10'
-			}else if (weight > 3.5) {
-				result = "Weight exceeds limit for a metered letters."
+				result = '1.10'
 			}
 			break
 		case 'flats':
 			if (weight > 0 && weight <= 1) {
-				result = '$1.00'
+				result = '1.00'
 			} else if (weight > 1 && weight <= 2) {
-				result = '$1.21'
+				result = '1.21'
 			} else if (weight > 2 && weight <= 3) {
-				result = '$1.42'
+				result = '1.42'
 			} else if (weight > 3 && weight <= 4) {
-				result = '$1.63'
+				result = '1.63'
 			} else if (weight > 4 && weight <= 5) {
-				result = '$1.84'
+				result = '1.84'
 			} else if (weight > 5 && weight <= 6) {
-				result = '$2.05'
+				result = '2.05'
 			} else if (weight > 6 && weight <= 7) {
-				result = '$2.26'
+				result = '2.26'
 			} else if (weight > 7 && weight <= 8) {
-				result = '$2.47'
+				result = '2.47'
 			} else if (weight > 8 && weight <= 9) {
-				result = '$2.68'
+				result = '2.68'
 			} else if (weight > 9 && weight <= 10) {
-				result = '$2.89'
+				result = '2.89'
 			} else if (weight > 10 && weight <= 11) {
-				result = '$3.10'
+				result = '3.10'
 			} else if (weight > 11 && weight <= 12) {
-				result = '$3.31'
+				result = '3.31'
 			} else if (weight > 12 && weight <= 13) {
-				result = '$3.52'
-			}else if (weight > 13) {
-				result = "Weight exceeds limit for a Flat."
+				result = '3.52'
 			}
 
 			break
 		case 'firstclasspackage':
 			if (weight > 0 && weight <= 4) {
-				result = '$3.50'
+				result = '3.50'
 			} else if (weight > 4 && weight <= 8) {
-				result = '$3.75'
+				result = '3.75'
 			} else if (weight > 8 && weight <= 9) {
-				result = '$4.10'
+				result = '4.10'
 			} else if (weight > 9 && weight <= 10) {
-				result = '$4.45'
+				result = '4.45'
 			} else if (weight > 10 && weight <= 11) {
-				result = '$4.80'
+				result = '4.80'
 			} else if (weight > 11 && weight <= 12) {
-				result = '$5.15'
+				result = '5.15'
 			} else if (weight > 12 && weight <= 13) {
-				result = '$5.50'
-			} else if (weight > 13) {
-				result = "Weight exceeds limit for a First Class Package."
-			}
+				result = '5.50'
+			} 
 			break
 	}
+	// console.log('result is ', result)
 	return result
 }
 
@@ -98,7 +92,7 @@ express()
 	res.render('pages/calculateresult', {
 		weight: req.query.weight,
 		mail: req.query.mail,
-		theResult: calculateRate(req, res)
+		theResult: doprocessing(req, res)
 
 	})
 })
@@ -107,8 +101,7 @@ express()
   		res.json({
   			weight: req.query.weight,
 			mail: req.query.mail,
-			theResult: calculateRate(req, res)
+			theResult: doprocessing(req, res)
   		})
   	})
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
-
