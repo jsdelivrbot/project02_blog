@@ -234,5 +234,12 @@ express()
 			theResult: calculateRate(req, res)
   		})
   	})
+.get('/getPerson', (req, res) => handle_get_getPerson(req, res))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+
+
+  function handle_get_getPerson(req, res)
+  {
+  	console.log('we wuz here');
+  }
 
