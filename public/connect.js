@@ -21,14 +21,19 @@ function handle_get_getPerson(req, res)
   client.query('SELECT id, first_name, last_name FROM member WHERE id = $1', [req.query.id], (dberr, dbres) => {
     if (dberr) throw dberr
     for (let row of dbres.rows) {
-      res.json(row)
+      res.header('Content-Type', 'application/json');
+      res.write(res.json(dbres.rows));
+      res.end();
       console.log(JSON.stringify(row))
     }
     client.end()
   })
 }
 
-
+// res.json({
+//        weight: req.query.weight,
+//      mail: req.query.mail,
+//      theResult: calculateRate(req, res)
 
 // var express = require('express');
 // var app = express();
