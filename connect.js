@@ -45,30 +45,23 @@ function getPerson(req, res) {
 }
 
 function getPersonFromDb(id, callback) {
- callback(null, [{
-   id: id,
-   first_name: 'John',
-   last_name: 'Doe'
- }]);
+  console.log("getPersonFromDb called with id:", id);
+
+  var sql = "SELECT id, first_name, last_name FROM member WHERE id = $1::int";
+
+  var params = [id];
+
+  pool.query(sql, params, function(err, result) {
+      if (err) {
+        console.log("There was an error with the database.");
+        console.log(err);
+        callback(err, null);
+      }
+      console.log("Found DB result: " + JSON.stringify(result.rows));
+
+      callback(null, result.rows);
+  });
 }
-// function getPersonFromDb(id, callback) {
-//   console.log("getPersonFromDb called with id:", id);
-
-//   var sql = "SELECT id, first_name, last_name FROM member WHERE id = $1::int";
-
-//   var params = [id];
-
-//   pool.query(sql, params, function(err, result) {
-//       if (err) {
-//         console.log("There was an error with the database.");
-//         console.log(err);
-//         callback(err, null);
-//       }
-//       console.log("Found DB result: " + JSON.stringify(result.rows));
-
-//       callback(null, result.rows);
-//   });
-// }
 
 function getComment(req, res) {
   console.log("Getting Comments.");
