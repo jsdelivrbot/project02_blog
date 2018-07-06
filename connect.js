@@ -10,6 +10,9 @@ const pool = new Pool({connectionString: connectionString});
 
 app.set("port", (process.env.PORT || 5000));
 
+
+const groupHelp = require('./groupHelp');
+
 //This puts a placeholder :id app.get("/getPerson/:id", getPerson)
 app.get("/getPerson", getPerson);
 app.get("/getComment", getComment);
@@ -157,9 +160,7 @@ function getFinishedItem(req, res) {
    res.json(result);
   });
 
-  // var result = {id: 238, first: "John", last: "Smith"};
-
-  // res.json(result);
+  
 }
 
 function getFinishedItemFromDb(id, callback) {
@@ -201,37 +202,6 @@ function storeComment(addComment, callback) {
 }
 
 
-// Below here is my attempt
-// const express = require('express')
-// const PORT = process.env.PORT || 5000
-
-// const { Client } = require('pg')
-
-// express()
-//   .get('/handle_get_getPerson', (req, res) => handle_get_getPerson(req, res))
-//   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
-
-// function handle_get_getPerson(req, res)
-// {
-//   console.log('We wuz here')
-
-//   const client = new Client({
-//     connectionString: process.env.DATABASE_URL,
-//     ssl: true
-//   })
-
-//   client.connect()
-
-//   client.query('SELECT id, first_name, last_name FROM member WHERE id = $1::int', [req.query.id], (dberr, dbres) => {
-//     if (dberr) throw dberr
-//     for (let row of dbres.rows) {
-//       //res.header('Content-Type', 'application/json');
-//       res.json(row);
-//       // res.write(res.json(dbres.rows));
-//       //res.end();
-//       //console.log(JSON.stringify(row))
-//     }
-//     client.end()
 //   })
 // }
 
