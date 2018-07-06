@@ -19,16 +19,16 @@ express()
   .use(express.static(path.join(__dirname, 'public')))
   .set('views', path.join(__dirname, 'views'))
   .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
+  .get('/', (req, res) => res.render('pages/connect'))
   
   .use('/groupHelp', groupHelp.app)
 
-  app.get("/getPerson", getPerson);
-app.get("/getComment", getComment);
-app.get("/getNewItem", getNewItem);
-app.get("/getFinishedItem", getFinishedItem);
+  .get("/getPerson", getPerson);
+  .get("/getComment", getComment);
+  .get("/getNewItem", getNewItem);
+  .get("/getFinishedItem", getFinishedItem);
 
-app.listen(app.get("port"), function() {
+  .listen(app.get("port"), function() {
   console.log("Now listening for connections on port: ", app.get("port"));
 });
 
