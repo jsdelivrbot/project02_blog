@@ -1,1 +1,1 @@
-web: node groupHelp.html
+web: node connect.js
