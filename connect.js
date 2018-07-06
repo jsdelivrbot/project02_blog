@@ -181,6 +181,25 @@ function getFinishedItemFromDb(id, callback) {
   });
 }
 
+function storeComment(addComment, callback) {
+  console.log('saving comment: ', addComment);
+
+  var sql = 'INSERT INTO comments(comments) VALUES ($1)';
+
+  var params = [addComment.comments];
+
+  dbconnect.query(sql, params, function(error, result) {
+    if (error) {
+      console.log('A DB error occured');
+      console.log(error);
+    }
+
+    console.log('Inserted into DB');
+
+    //callback(null, vip.js/1);
+  });
+}
+
 
 // Below here is my attempt
 // const express = require('express')
