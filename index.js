@@ -4,6 +4,15 @@ const PORT = process.env.PORT || 5000
 const { Client } = require('pg')
 
 express()
+express()
+  .use(express.static(path.join(__dirname, 'public')))
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('pages/index'))
+  // BEGIN SCHOOL USE STUFF
+  .use('/groupHelp', groupHelp.app)
+  // END SCHOOL USE STUFF
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
   .get('/handle_get_getPerson', (req, res) => handle_get_getPerson(req, res))
   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
