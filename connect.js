@@ -9,7 +9,7 @@ express()
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/connect'))
   
-  .use('/groupHelp', groupHelp)
+  .use('/view/groupHelp', groupHelp)
 
   .get("/getPerson", getPerson);
   .get("/getComment", getComment);
