@@ -1,6 +1,6 @@
 const express = require('express')
 const PORT = process.env.PORT || 5000
-const groupHelp = require(' /view/groupHelp.ejs')
+//const groupHelp = require(' /view/groupHelp.ejs')
 const { Client } = require('pg')
 
 express()
@@ -9,7 +9,7 @@ express()
   .set('view engine', 'ejs')
   .get('/', (req, res) => res.render('pages/index'))
   
-  .use('/view/groupHelp', groupHelp)
+  // .use('/view/groupHelp', groupHelp)
 
   // .get("/getPerson", getPerson);
   // .get("/getComment", getComment);
