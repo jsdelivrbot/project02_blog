@@ -11,10 +11,10 @@ express()
   
   .use('/view/groupHelp', groupHelp)
 
-  .get("/getPerson", getPerson);
-  .get("/getComment", getComment);
-  .get("/getNewItem", getNewItem);
-  .get("/getFinishedItem", getFinishedItem);
+  // .get("/getPerson", getPerson);
+  // .get("/getComment", getComment);
+  // .get("/getNewItem", getNewItem);
+  // .get("/getFinishedItem", getFinishedItem);
 
   .listen(get("port"), function() {
   console.log("Now listening for connections on port: ", get("port"));
