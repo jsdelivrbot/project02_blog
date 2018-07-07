@@ -1,6 +1,6 @@
 const express = require('express')
 const PORT = process.env.PORT || 5000
-var groupHelp = require('groupHelp')
+const groupHelp = require(' /view/groupHelp.ejs')
 const { Client } = require('pg')
 
 express()
