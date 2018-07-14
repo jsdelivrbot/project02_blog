@@ -1,7 +1,7 @@
 var path = require('path');
 var express = require('express');
 var app = express();
-var addToList = require('./../.js');
+var addToList = require('./../addToList.js');
 
 // We are going to use sessions
 //var parseurl = require('parseurl')

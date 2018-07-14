@@ -38,6 +38,8 @@
 //   });
 // }
 
+var exports = module.exports = {
+
 function addTheComment(addComment, callback) {
   console.log('saving comment: ', addComment);
 
@@ -276,6 +278,7 @@ function getFinishedItemFromDb(id, callback) {
       callback(null, result.rows);
   });
 }
+};
 
 // function storeComment(addComment, callback) {
 //   console.log('saving comment: ', addComment);
@@ -302,30 +305,30 @@ function getFinishedItemFromDb(id, callback) {
 
 
   
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
-  .get('/handle_get_getPerson', (req, res) => handle_get_getPerson(req, res))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+//   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+//   .get('/handle_get_getPerson', (req, res) => handle_get_getPerson(req, res))
+//   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
-function handle_get_getPerson(req, res)
-{
-  console.log('We wuz here')
+// function handle_get_getPerson(req, res)
+// {
+//   console.log('We wuz here')
 
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
-  })
+//   const client = new Client({
+//     connectionString: process.env.DATABASE_URL,
+//     ssl: true
+//   })
 
-  client.connect()
+//   client.connect()
 
-  client.query('SELECT first_name, last_name FROM member WHERE id = $1', [req.query.id], (dberr, dbres) => {
-    if (dberr) throw dberr
-    for (let row of dbres.rows) {
-      res.json(row)
-      console.log(JSON.stringify(row))
-    }
-    client.end()
-  })
-}
+//   client.query('SELECT first_name, last_name FROM member WHERE id = $1', [req.query.id], (dberr, dbres) => {
+//     if (dberr) throw dberr
+//     for (let row of dbres.rows) {
+//       res.json(row)
+//       console.log(JSON.stringify(row))
+//     }
+//     client.end()
+//   })
+// }
 
 
 
