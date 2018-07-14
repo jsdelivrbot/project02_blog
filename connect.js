@@ -31,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')))
 app.use(logRequest);
 
 // Setup our routes
+app.post('/storeComment', addTheComment);
 app.post('/login', handleLogin);
 app.post('/logout', handleLogout);
 
@@ -48,6 +49,26 @@ app.listen(app.get('port'), function() {
  * These methods should likely be moved into a different module
  * But they are hear for ease in looking at the code
  ****************************************************************/
+//Handle the comments into the database
+function addTheComment(addComment, callback) {
+  console.log('saving comment: ', addComment);
+
+  var sql = 'INSERT INTO comments(comments) VALUES ($1)';
+
+  var params = [addComment.comments];
+
+  dbconnect.query(sql, params, function(error, result) {
+    if (error) {
+      console.log('A DB error occured');
+      console.log(error);
+    }
+
+    console.log('Inserted into DB');
+
+    //callback(null, vip.js/1);
+  });
+}
+
 
 // Checks if the username and password match a hardcoded set
 // If they do, put the username on the session
