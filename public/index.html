@@ -1,215 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<title>Test Form</title>
+	<script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+	<script src="test.js"></script>
+</head>
+<body>
+<div>
+	<input type="text" id="username" placeholder="username"><br>
+	<input type="password" id="password" placeholder="password"><br>
+	<button onclick="login();">Log in</button>
+	<button onclick="logout();">Log out</button><br>
+	<br>
+	<button onclick="getServerTime()">Get server time</button>
+	<div id="status"></div>
+</div>
+
+</body>
+</html>
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
 	<title>helping Hand</title>
 	<script>
-		function getPerson(req, res) {
-  console.log("Getting person information.");
-
-//var id = req.params.id; is used for placeholder
-  var id = req.query.id;
-
-  getPersonFromDb(id, function(error, result) {
-
-    if (error || result == null || result.length != 1) {
-      res.status(500).json({success:false, data: error});
-    } else {
-      res.json(result[0]);
-    } 
-
-   console.log("Back from database", result);
-   res.json(result);
-  });
-
-  // var result = {id: 238, first: "John", last: "Smith"};
-
-  // res.json(result);
-}
-
-function getPersonFromDb(id, callback) {
-  console.log("getPersonFromDb called with id:", id);
-
-  var sql = "SELECT id, first_name, last_name FROM member WHERE id = $1::int";
-
-  var params = [id];
-
-  pool.query(sql, params, function(err, result) {
-      if (err) {
-        console.log("There was an error with the database.");
-        console.log(err);
-        callback(err, null);
-      }
-      console.log("Found DB result: " + JSON.stringify(result.rows));
-
-      callback(null, result.rows);
-  });
-}
-
-function getComment(req, res) {
-  console.log("Getting Comments.");
-
-  var id = req.query.id;
-
-  getCommentFromDb(id, function(error, result) {
-
-    if (error || result == null || result.length != 1) {
-      res.status(500).json({success:false, data: error});
-    } else {
-      res.json(result[0]);
-    } 
-
-   console.log("Back from database", result);
-   res.json(result);
-  });
-}
-
-function getCommentFromDb(id, callback) {
-  console.log("getCommentFromDb called with id:", id);
-
-  var sql = "SELECT comment_id, comments FROM comments WHERE id = $1::int AND comments = $2text";
-
-  var params = [id];
-
-  pool.query(sql, params, function(err, result) {
-      if (err) {
-        console.log("There was an error with the database.");
-        console.log(err);
-        callback(err, null);
-      }
-      console.log("Found DB result: " + JSON.stringify(result.rows));
-
-      callback(null, result.rows);
-  });
-}
-
-function getNewItem(req, res) {
-  console.log("Getting New information.");
-
-//var id = req.params.id; is used for placeholder
-  var id = req.query.id;
-
-  getNewItemFromDb(id, function(error, result) {
-
-    if (error || result == null || result.length != 1) {
-      res.status(500).json({success:false, data: error});
-    } else {
-      res.json(result[0]);
-    } 
-
-   console.log("Back from database", result);
-   res.json(result);
-  });
-
-}
-
-function getNewItemFromDb(id, callback) {
-  console.log("getNewItemFromDb called with id:", id);
-
-  var sql = "SELECT id, new_item FROM list WHERE id = $1::int AND new_item = $2::text";
-
-  var params = [id];
-
-  pool.query(sql, params, function(err, result) {
-      if (err) {
-        console.log("There was an error with the database.");
-        console.log(err);
-        callback(err, null);
-      }
-      console.log("Found DB result: " + JSON.stringify(result.rows));
-
-      callback(null, result.rows);
-  });
-}
-
-function getFinishedItem(req, res) {
-  console.log("Getting Finished information.");
-
-//var id = req.params.id; is used for placeholder
-  var id = req.query.id;
-
-  getFinishedItemFromDb(id, function(error, result) {
-
-    if (error || result == null || result.length != 1) {
-      res.status(500).json({success:false, data: error});
-    } else {
-      res.json(result[0]);
-    } 
-
-   console.log("Back from database", result);
-   res.json(result);
-  });
-
-  
-}
-
-function getFinishedItemFromDb(id, callback) {
-  console.log("getFinishedItemFromDb called with id:", id);
-
-  var sql = "SELECT id, finished_item FROM list WHERE id = $1::int AND finished_item = $2::text";
-
-  var params = [id];
-
-  pool.query(sql, params, function(err, result) {
-      if (err) {
-        console.log("There was an error with the database.");
-        console.log(err);
-        callback(err, null);
-      }
-      console.log("Found DB result: " + JSON.stringify(result.rows));
-
-      callback(null, result.rows);
-  });
-}
-
-function storeComment(addComment, callback) {
-  console.log('saving comment: ', addComment);
-
-  var sql = 'INSERT INTO comments(comments) VALUES ($1)';
-
-  var params = [addComment.comments];
-
-  dbconnect.query(sql, params, function(error, result) {
-    if (error) {
-      console.log('A DB error occured');
-      console.log(error);
-    }
-
-    console.log('Inserted into DB');
-
-    //callback(null, vip.js/1);
-  });
-}
-
-
-//   })
-// }
-
-
-  
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
-  .get('/handle_get_getPerson', (req, res) => handle_get_getPerson(req, res))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
-
-function handle_get_getPerson(req, res)
-{
-  console.log('We wuz here')
-
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
-  })
-
-  client.connect()
-
-  client.query('SELECT first_name, last_name FROM member WHERE id = $1', [req.query.id], (dberr, dbres) => {
-    if (dberr) throw dberr
-    for (let row of dbres.rows) {
-      res.json(row)
-      console.log(JSON.stringify(row))
-    }
-    client.end()
-  })
-}
+		
 	</script>
 </head>
 <body>
@@ -227,39 +46,6 @@ function handle_get_getPerson(req, res)
     	<textarea id="addComment" name="addComment"></textarea><br>
     	<input type="button" name="addComment" onclick="storeComment()">
     </div>
-
-</body>
-</html>
-
-
-<!-- <!DOCTYPE html>
-<html>
-<head>
-	<title>Postal Rate Calculator</title>
-	<style>
-		h1 {
-			text-align: center;
-		}
-		body {
-			background-color: #66b2ff;
-		}
-	</style>
-</head>
-<body>
-	<h1>Welcome to the Postal Rate Calculaor</h1>
-	<p>Insert your package weight and delivery type.</p>
-	<form action="/calculateresult" method="get">
-		<label for="weight">Weight:</label><br>
-		<input type="text" name="weight" id="weight"><br>
-		<label for="mail">Type:</label><br>
-		<select name="mail" id="mail">
-			<option value="stamped">Letters (Stamped)</option>
-			<option value="metered">Letters (Metered)</option>
-			<option value="flats">Large Envelopes (Flats)</option>
-			<option value="firstclasspackage">First-Class Package Service-Retail</option>
-		</select><br>
-		<input type="submit" name="submit" value="Calculate">
-	</form>
 
 </body>
 </html> -->
