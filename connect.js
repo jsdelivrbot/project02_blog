@@ -1,7 +1,6 @@
 var path = require('path');
 var express = require('express');
 var app = express();
-var addToList = require('./../addToList.js');
 
 // We are going to use sessions
 //var parseurl = require('parseurl')
@@ -36,6 +35,8 @@ app.post('/storeComment', addTheComment);
 app.post('/login', handleLogin);
 app.post('/logout', handleLogout);
 
+// This method has a middleware function "verifyLogin" that will be called first
+app.get('/getServerTime', verifyLogin, getServerTime);
 
 // Start the server
 app.listen(app.get('port'), function() {

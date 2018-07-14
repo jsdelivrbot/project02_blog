@@ -1,281 +1,160 @@
-// function login() {
-//   var username = $("#username").val();
-//   var password = $("#password").val();
+//     function getPerson(req, res) {
+//   console.log("Getting person information.");
 
-//   var params = {
-//     username: username,
-//     password: password
-//   };
+// //var id = req.params.id; is used for placeholder
+//   var id = req.query.id;
 
-//   $.post("/login", params, function(result) {
-//     if (result && result.success) {
-//       $("#status").text("Successfully logged in.");
+//   getPersonFromDb(id, function(error, result) {
+
+//     if (error || result == null || result.length != 1) {
+//       res.status(500).json({success:false, data: error});
 //     } else {
-//       $("#status").text("Error logging in.");
-//     }
+//       res.json(result[0]);
+//     } 
+
+//    console.log("Back from database", result);
+//    res.json(result);
+//   });
+
+//   // var result = {id: 238, first: "John", last: "Smith"};
+
+//   // res.json(result);
+// }
+
+// function getPersonFromDb(id, callback) {
+//   console.log("getPersonFromDb called with id:", id);
+
+//   var sql = "SELECT id, first_name, last_name FROM member WHERE id = $1::int";
+
+//   var params = [id];
+
+//   pool.query(sql, params, function(err, result) {
+//       if (err) {
+//         console.log("There was an error with the database.");
+//         console.log(err);
+//         callback(err, null);
+//       }
+//       console.log("Found DB result: " + JSON.stringify(result.rows));
+
+//       callback(null, result.rows);
 //   });
 // }
 
-// function logout() {
-//   $.post("/logout", function(result) {
-//     if (result && result.success) {
-//       $("#status").text("Successfully logged out.");
+// function getComment(req, res) {
+//   console.log("Getting Comments.");
+
+//   var id = req.query.id;
+
+//   getCommentFromDb(id, function(error, result) {
+
+//     if (error || result == null || result.length != 1) {
+//       res.status(500).json({success:false, data: error});
 //     } else {
-//       $("#status").text("Error logging out.");
-//     }
+//       res.json(result[0]);
+//     } 
+
+//    console.log("Back from database", result);
+//    res.json(result);
 //   });
 // }
 
-// function getServerTime() {
-//   $.get("/getServerTime", function(result) {
-//     if (result && result.success) {
-//       $("#status").text("Server time: " + result.time);
-//     } else {
-//       $("#status").text("Got a result back, but it wasn't a success. Your reponse should have had a 401 status code.");
-//     }
-//   }).fail(function(result) {
-//     $("#status").text("Could not get server time.");
+// function getCommentFromDb(id, callback) {
+//   console.log("getCommentFromDb called with id:", id);
+
+//   var sql = "SELECT comment_id, comments FROM comments WHERE id = $1::int AND comments = $2text";
+
+//   var params = [id];
+
+//   pool.query(sql, params, function(err, result) {
+//       if (err) {
+//         console.log("There was an error with the database.");
+//         console.log(err);
+//         callback(err, null);
+//       }
+//       console.log("Found DB result: " + JSON.stringify(result.rows));
+
+//       callback(null, result.rows);
 //   });
 // }
 
-function addTheComment(addComment, callback) {
-  console.log('saving comment: ', addComment);
+// function getNewItem(req, res) {
+//   console.log("Getting New information.");
 
-  var sql = 'INSERT INTO comments(comments) VALUES ($1)';
+// //var id = req.params.id; is used for placeholder
+//   var id = req.query.id;
 
-  var params = [addComment.comments];
+//   getNewItemFromDb(id, function(error, result) {
 
-  dbconnect.query(sql, params, function(error, result) {
-    if (error) {
-      console.log('A DB error occured');
-      console.log(error);
-    }
+//     if (error || result == null || result.length != 1) {
+//       res.status(500).json({success:false, data: error});
+//     } else {
+//       res.json(result[0]);
+//     } 
 
-    console.log('Inserted into DB');
+//    console.log("Back from database", result);
+//    res.json(result);
+//   });
 
-    //callback(null, vip.js/1);
-  });
-}
+// }
 
+// function getNewItemFromDb(id, callback) {
+//   console.log("getNewItemFromDb called with id:", id);
 
-// Checks if the username and password match a hardcoded set
-// If they do, put the username on the session
-function handleLogin(request, response) {
-  var result = {success: false};
+//   var sql = "SELECT id, new_item FROM list WHERE id = $1::int AND new_item = $2::text";
 
-  // We should do better error checking here to make sure the parameters are present
-  if (request.body.username == "admin" && request.body.password == "password") {
-    request.session.user = request.body.username;
-    result = {success: true};
-  }
+//   var params = [id];
 
-  response.json(result);
-}
+//   pool.query(sql, params, function(err, result) {
+//       if (err) {
+//         console.log("There was an error with the database.");
+//         console.log(err);
+//         callback(err, null);
+//       }
+//       console.log("Found DB result: " + JSON.stringify(result.rows));
 
-// If a user is currently stored on the session, removes it
-function handleLogout(request, response) {
-  var result = {success: false};
+//       callback(null, result.rows);
+//   });
+// }
 
-  // We should do better error checking here to make sure the parameters are present
-  if (request.session.user) {
-    request.session.destroy();
-    result = {success: true};
-  }
+// function getFinishedItem(req, res) {
+//   console.log("Getting Finished information.");
 
-  response.json(result);
-}
+// //var id = req.params.id; is used for placeholder
+//   var id = req.query.id;
 
-// This function returns the current server time
-function getServerTime(request, response) {
-  var time = new Date();
-  
-  var result = {success: true, time: time};
-  response.json(result); 
-}
+//   getFinishedItemFromDb(id, function(error, result) {
 
-// This is a middleware function that we can use with any request
-// to make sure the user is logged in.
-function verifyLogin(request, response, next) {
-  if (request.session.user) {
-    // They are logged in!
+//     if (error || result == null || result.length != 1) {
+//       res.status(500).json({success:false, data: error});
+//     } else {
+//       res.json(result[0]);
+//     } 
 
-    // pass things along to the next function
-    next();
-  } else {
-    // They are not logged in
-    // Send back an unauthorized status
-    var result = {succes:false, message: "Access Denied"};
-    response.status(401).json(result);
-  }
-}
-
-// This middleware function simply logs the current request to the server
-function logRequest(request, response, next) {
-  console.log("Received a request for: " + request.url);
-
-  // don't forget to call next() to allow the next parts of the pipeline to function
-  next();
-}
-
-
-
-    function getPerson(req, res) {
-  console.log("Getting person information.");
-
-//var id = req.params.id; is used for placeholder
-  var id = req.query.id;
-
-  getPersonFromDb(id, function(error, result) {
-
-    if (error || result == null || result.length != 1) {
-      res.status(500).json({success:false, data: error});
-    } else {
-      res.json(result[0]);
-    } 
-
-   console.log("Back from database", result);
-   res.json(result);
-  });
-
-  // var result = {id: 238, first: "John", last: "Smith"};
-
-  // res.json(result);
-}
-
-function getPersonFromDb(id, callback) {
-  console.log("getPersonFromDb called with id:", id);
-
-  var sql = "SELECT id, first_name, last_name FROM member WHERE id = $1::int";
-
-  var params = [id];
-
-  pool.query(sql, params, function(err, result) {
-      if (err) {
-        console.log("There was an error with the database.");
-        console.log(err);
-        callback(err, null);
-      }
-      console.log("Found DB result: " + JSON.stringify(result.rows));
-
-      callback(null, result.rows);
-  });
-}
-
-function getComment(req, res) {
-  console.log("Getting Comments.");
-
-  var id = req.query.id;
-
-  getCommentFromDb(id, function(error, result) {
-
-    if (error || result == null || result.length != 1) {
-      res.status(500).json({success:false, data: error});
-    } else {
-      res.json(result[0]);
-    } 
-
-   console.log("Back from database", result);
-   res.json(result);
-  });
-}
-
-function getCommentFromDb(id, callback) {
-  console.log("getCommentFromDb called with id:", id);
-
-  var sql = "SELECT comment_id, comments FROM comments WHERE id = $1::int AND comments = $2text";
-
-  var params = [id];
-
-  pool.query(sql, params, function(err, result) {
-      if (err) {
-        console.log("There was an error with the database.");
-        console.log(err);
-        callback(err, null);
-      }
-      console.log("Found DB result: " + JSON.stringify(result.rows));
-
-      callback(null, result.rows);
-  });
-}
-
-function getNewItem(req, res) {
-  console.log("Getting New information.");
-
-//var id = req.params.id; is used for placeholder
-  var id = req.query.id;
-
-  getNewItemFromDb(id, function(error, result) {
-
-    if (error || result == null || result.length != 1) {
-      res.status(500).json({success:false, data: error});
-    } else {
-      res.json(result[0]);
-    } 
-
-   console.log("Back from database", result);
-   res.json(result);
-  });
-
-}
-
-function getNewItemFromDb(id, callback) {
-  console.log("getNewItemFromDb called with id:", id);
-
-  var sql = "SELECT id, new_item FROM list WHERE id = $1::int AND new_item = $2::text";
-
-  var params = [id];
-
-  pool.query(sql, params, function(err, result) {
-      if (err) {
-        console.log("There was an error with the database.");
-        console.log(err);
-        callback(err, null);
-      }
-      console.log("Found DB result: " + JSON.stringify(result.rows));
-
-      callback(null, result.rows);
-  });
-}
-
-function getFinishedItem(req, res) {
-  console.log("Getting Finished information.");
-
-//var id = req.params.id; is used for placeholder
-  var id = req.query.id;
-
-  getFinishedItemFromDb(id, function(error, result) {
-
-    if (error || result == null || result.length != 1) {
-      res.status(500).json({success:false, data: error});
-    } else {
-      res.json(result[0]);
-    } 
-
-   console.log("Back from database", result);
-   res.json(result);
-  });
+//    console.log("Back from database", result);
+//    res.json(result);
+//   });
 
   
-}
+// }
 
-function getFinishedItemFromDb(id, callback) {
-  console.log("getFinishedItemFromDb called with id:", id);
+// function getFinishedItemFromDb(id, callback) {
+//   console.log("getFinishedItemFromDb called with id:", id);
 
-  var sql = "SELECT id, finished_item FROM list WHERE id = $1::int AND finished_item = $2::text";
+//   var sql = "SELECT id, finished_item FROM list WHERE id = $1::int AND finished_item = $2::text";
 
-  var params = [id];
+//   var params = [id];
 
-  pool.query(sql, params, function(err, result) {
-      if (err) {
-        console.log("There was an error with the database.");
-        console.log(err);
-        callback(err, null);
-      }
-      console.log("Found DB result: " + JSON.stringify(result.rows));
+//   pool.query(sql, params, function(err, result) {
+//       if (err) {
+//         console.log("There was an error with the database.");
+//         console.log(err);
+//         callback(err, null);
+//       }
+//       console.log("Found DB result: " + JSON.stringify(result.rows));
 
-      callback(null, result.rows);
-  });
-}
+//       callback(null, result.rows);
+//   });
+// }
 
 // function storeComment(addComment, callback) {
 //   console.log('saving comment: ', addComment);
@@ -297,35 +176,35 @@ function getFinishedItemFromDb(id, callback) {
 // }
 
 
-//   })
-// }
+// //   })
+// // }
 
 
   
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
-  .get('/handle_get_getPerson', (req, res) => handle_get_getPerson(req, res))
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+//   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
+//   .get('/handle_get_getPerson', (req, res) => handle_get_getPerson(req, res))
+//   .listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
-function handle_get_getPerson(req, res)
-{
-  console.log('We wuz here')
+// function handle_get_getPerson(req, res)
+// {
+//   console.log('We wuz here')
 
-  const client = new Client({
-    connectionString: process.env.DATABASE_URL,
-    ssl: true
-  })
+//   const client = new Client({
+//     connectionString: process.env.DATABASE_URL,
+//     ssl: true
+//   })
 
-  client.connect()
+//   client.connect()
 
-  client.query('SELECT first_name, last_name FROM member WHERE id = $1', [req.query.id], (dberr, dbres) => {
-    if (dberr) throw dberr
-    for (let row of dbres.rows) {
-      res.json(row)
-      console.log(JSON.stringify(row))
-    }
-    client.end()
-  })
-}
+//   client.query('SELECT first_name, last_name FROM member WHERE id = $1', [req.query.id], (dberr, dbres) => {
+//     if (dberr) throw dberr
+//     for (let row of dbres.rows) {
+//       res.json(row)
+//       console.log(JSON.stringify(row))
+//     }
+//     client.end()
+//   })
+// }
 
 
 
@@ -339,14 +218,6 @@ function handle_get_getPerson(req, res)
 
 
 //started here
-
-
-
-
-
-
-
-
 
 
 // const express = require('express')
