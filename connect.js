@@ -57,12 +57,12 @@ app.listen(app.get('port'), function() {
  * But they are hear for ease in looking at the code
  ****************************************************************/
 //Handle the comments into the database
-function addTheComment(addComment, callback) {
-  console.log('saving comment: ', addComment);
+function addTheComment(req, res) {
+  console.log('saving comment: ');
 
   var sql = 'INSERT INTO comments(comments) VALUES ($1)';
 
-  var params = [addComment.comments];
+  var params = [req.comments];
 
   dbconnect.query(sql, params, function(error, result) {
     if (error) {
