@@ -13,7 +13,7 @@ router.post('/', (req, res, next) => {
 	};
 	res.status(201).json({
 		message: 'Posting list'
-		new_item: new_item
+		// new_item: new_item
 	});
 });
 
