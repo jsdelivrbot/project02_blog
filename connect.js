@@ -54,10 +54,10 @@ server.listen(port);
 // // This method has a middleware function "verifyLogin" that will be called first
 // app.get('/getServerTime', verifyLogin, getServerTime);
 
-// // Start the server
-// app.listen(app.get('port'), function() {
-//   console.log('Node app is running on port', app.get('port'));
-// });
+// Start the server
+app.listen(app.get('port'), function() {
+  console.log('Node app is running on port', app.get('port'));
+});
 
 
 
